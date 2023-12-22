@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{../refalg}
+
+\begin{document}
+\Makepagesectionhead{MATH 437}{Manifolds}{ARessegetes Stery}
+
+\tableofcontents
+\newpage
+
+\def\open{\mathcal{O}}
+
+\section{Preliminary Topology}
+
+\begin{definition}[Topological Space]
+    A \textbf{topological space} is a pair (X, $\open$), where $X$ is an arbitrary set, and $\open$ a class of subsets of $X$, which satisfies the follows:
+    \begin{itemize}
+        \item $\emptyset \in \open$, and $X \in \open$.
+        \item Let $(\Omega_i)_{i \in I}$ be a (possibly infinite) class of subsets of $X$, then $\bigcup_{i \in I} \Omega_i \in \open$.
+        \item Let $(\omega_i)_{i \in I}$ be a finite class of subsets of $X$, then $\bigcap_{i \in I} \omega_i \in \open$.
+    \end{itemize}
+    Elements of $\open$ are called the \textbf{open sets}. $\open$ (as a class) gives the topology of $X$. 
+\end{definition}
+
+\begin{remark}
+    If the topology of $X$ is clear, one often denotes the space by simply $X$. 
+\end{remark}
+
+\begin{definition}[Hausdorff Space]
+    A topological space $(X, \open)$ is a \textbf{Hausdorff space} if for all $x, y \in X$ there exists $\Omega_x, \Omega_y \in \open$ s.t. $x \in \Omega_x, y \in \Omega_y$; and $\Omega_x \cap \Omega_y = \emptyset$.
+\end{definition}
+
+\begin{example}
+    Choice of topology is very important. Consider the following examples:
+    \begin{itemize}
+        \item Consider $(\R, \open)$ where $\Omega \in \open$ if and only if for all $x \in \Omega$, there exists $\varepsilon \in \R$ s.t. $(x - \varepsilon, x + \varepsilon) \subseteq \Omega$. This space is Hausdorff as one could choose $\varepsilon_x = \varepsilon_y = \abs{x - y}/4$. This also illustrates why the intersection must be finite, as otherwise one could construct a converging sequence of $\varepsilon$, whose corresponding class of subsets intersecting to a closed interval.
+        \item Consider $(\R, \open)$ to be the trivial topology, where $\open := \{\R, \emptyset\}$. Then the only subset in $\open$ containing $x$ and $y$ is $\R$, which implies that the space is not Hausdorff.
+    \end{itemize}
+\end{example}
+
+\begin{definition}[Basis of a Topology]
+    Let $(X, \open)$ be a topology space. Then a subset $\mathcal{B} \subseteq \open$ is a \textbf{basis of topology} $\open$ if for any $\Omega \in \open$ it can be expressed as union of elements in $\mathcal{B}$. If there exists such $\mathcal{B}$ s.t. it is countably infinite, then $X$ admits a \textbf{countable basis of topology}.
+\end{definition}
+
+\begin{proposition}
+    $(\R, \open)$ with topology defined as in the first case in the example above admits a countable basis of topology.
+\end{proposition}
+
+\begin{proof}
+    First consider $\mathcal{B} := \{(a, b) \mid a < b, a, b \in \R\}$. This gives a basis for the topology of $(\R, \open)$ in the sense of the first case above:
+    \begin{itemize}
+        \item \emph{Any union of elements in $\mathcal{B}$ is open.} Denote such union to be $\Omega$. By construction, for $x \in \R$ s.t. $x \in \Omega$, there exists $a_x < b_x$ s.t. $x \in (a_x, b_x)$. Then there exists $\varepsilon = \min\{x - a_x, b_x - x\} / 2$ that satisfies the definition.
+        \item \emph{Any open subset of $\R$ can be expressed as a union of open intervals}. Recall that the union can be infinite. Now consider for $\Omega$ an open interval
+        \[
+            \Omega = \bigcup_{x \in \Omega} (x - \varepsilon_x, x + \varepsilon_x)
+        \]
+        where for each $x$, $\varepsilon_x$ is the corresponding radius s.t. the definition is satisfied; and for all $x \in \Omega$, $(\R \backslash \Omega) \cap (x - 2\varepsilon_x, x + 2\varepsilon_x) \neq \emptyset$. By definition for all $x \in \Omega$ there exists such an interval that $x$ is in it.
+    \end{itemize}
+    Then consider $\mathcal{B}' := \{(a, b) \mid a < b, a, b \in \Q\}$. Since $\Q$ is dense in $\R$, for any $x' \in \R \cap \Omega$ there exists a sequence $(x_n)$ s.t. $\lim_{n \to \infty} x_n = x'$. Choose the sequence s.t. $\abs{x_n - x'} > 2\abs{x_{n+1} - x'}$. Suppose that for all $n$, $x' \notin (x_n - \varepsilon_{x_n}, x_n + \varepsilon_{x_n})$. Then there exists some $n_0$ s.t. $(x_{n+1} - \varepsilon_{x_{n+1}}, x_{n+1} + \varepsilon_{x_{n+1}}) \subsetneq (x_n, x')$ assuming $x_n < x'$ without loss of generality, which is a contradiction.
+
+    Since $\Q \simeq \N \times \N$ which is countable, $\Q \times \Q$ is also countable, indicating that $\beta'$ gives a countable basis of topology on $\R$.
+\end{proof}
+
+\begin{remark}
+    For $\R^n$, the \underline{standard topology} is defined as where a set $\Omega$ is open if and only if for every $x \in \Omega$ there exists $\varepsilon > 0$ s.t. $B_{\varepsilon}^n (x)s \subseteq \Omega$. 
+\end{remark}
+
+\begin{definition}[Induced Topology]
+    Let $(X, \open_X)$ be a topological space, and $Y \subseteq X$. Then there exists a definition for $\open_Y$ where $\Omega' \in \open_Y$ if and only if there exists $\Omega \in \open_X$ s.t. $\Omega' = \Omega \cap Y$. This is the \textbf{induced topology} on $Y$.
+\end{definition}
+
+\begin{definition}
+    Let $(X_1, \open_1)$, $(X_2, \open_2)$ be topological spaces. Then
+    \begin{itemize}
+        \item A map $f: X_1 \to X_2$ is \textbf{continuous} if for all $\Omega \in \open_2$, $f^{-1}(\Omega) \in \open_1$. 
+        \item A map $f: X_1 \to X_2$ is \textbf{homeomorphic} if it is invertible, and both $f$ and $f^{-1}$ are continuous. 
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    The map $f: [0, 2\pi) \to S^1, x \mapsto (\cos x, \sin x)$ is not homeomorphic, as for the arcs wrapped around the origin (e.g. $f([0, \pi/6) \cup (11\pi/6, 2\pi))$) the image is open, but the interval itself is not open.
+\end{example}
+
+\begin{definition}[Diffeomorphism]
+    Let $\Omega_1, \Omega_2 \subseteq \R^n$ be open sets. Then a homeomorphism $f: \Omega_1 \to \Omega_2$ is a \textbf{diffeomorphism} if both $f$ and $f^{-1}$ are differentiable. Similarly one can consider $C^k$-diffeomorphism for $f$ and $f^{-1}$ being $k$-times differentiable.
+\end{definition}
+
+\begin{proposition}
+    If $f$ is a diffeomorphism which is $n$-times differentiable, then $f^{-1}$ is also $n$-times differentiable.
+\end{proposition}
+
+\begin{proof}
+    Proceed to prove this via induction on $k$:
+    \begin{itemize}
+        \item \emph{Base case}. For $k = 1$, this is by the definition of diffeomorphisms.
+        \item \emph{Inductive step}. Suppose that this is proven for $k = m$. For $k = m+1 \leq n$, since $f$ is $C^n$-differentiable and locally injective everywhere, by inverse function theorem this gives
+        \[
+            g'(x) = \frac{1}{f'(g(x))}
+        \]
+        where by hypothesis $f'$ and $g$ are both $C^m$-differentiable, and therefore so is their composition and $g'$.
+    \end{itemize}
+    This gives $g'$ is $C^{n-1}$-differentiable, which gives $g$ being $C^n$-differentiable.
+\end{proof}
+
+\begin{remark}
+    A differentiable homeomorphism is not necessarily a diffeomorphism, as $f$ is not necessarily locally injective everywhere. Consider $f: x \mapsto x^3$ whose inverse is not differentiable at $0$. $f$ is not locally injective at 0.  
+\end{remark}
+
+\section{Differentiable Manifolds}
+
+\end{document}
