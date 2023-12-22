@@ -61,8 +61,12 @@
 \end{proof}
 
 \begin{remark}
-    For $\R^n$, the \underline{standard topology} is defined as where a set $\Omega$ is open if and only if for every $x \in \Omega$ there exists $\varepsilon > 0$ s.t. $B_{\varepsilon}^n (x)s \subseteq \Omega$. 
+    For $\R^n$, the \underline{standard topology} is defined as where a set $\Omega$ is open if and only if for every $x \in \Omega$ there exists $\varepsilon > 0$ s.t. $B_{\varepsilon}^n (x) \subseteq \Omega$. 
 \end{remark}
+
+\begin{corollary}
+    By the same proof, and considering open intervals as $1$-balls on $\R^1$, this gives that $\R^n$ with the standard topology admits a countable basis of topology. 
+\end{corollary}
 
 \begin{definition}[Induced Topology]
     Let $(X, \open_X)$ be a topological space, and $Y \subseteq X$. Then there exists a definition for $\open_Y$ where $\Omega' \in \open_Y$ if and only if there exists $\Omega \in \open_X$ s.t. $\Omega' = \Omega \cap Y$. This is the \textbf{induced topology} on $Y$.
