@@ -9,6 +9,72 @@
 
 \def\open{\mathcal{O}}
 
+\section{Preliminary Results from Calculus}
+
+This section is dedicated to proving the following two theorems, which has various implications in differential geometry:
+
+\begin{theorem}[Inverse Function Theorem]\label{thm:inverse function theorem}
+    Let $X$, $Y$ be finite-dimensional normed vector space, $\Omega \subseteq X$ an open set, and $f: \Omega \to Y$ a continuously differentiable function. Let $x_0 \in \Omega$. If $\restr{Df}{x_0}$ is invertible, then $f$ is locally $C^{1}$-differentiable at $x_0$ (i.e. $f^{-1}$ is $C^1$-continuous), whose derivative satisfies
+    \[
+        \restr{Df^{-1}}{f(x)} = (\restr{Df}{x})^{-1}
+    \]
+\end{theorem}
+
+\begin{theorem}[Implicit Function Theorem]\label{thm:implicit function theorem}
+    Let $\Omega \subseteq \R^n \times R^m$ be open, with $F \in C^1{\Omega, \R^m}$ s.t. $F(x_0, y_0) = 0$ for $(x_0, y_0) \in \Omega$. If
+    \[
+        \det \restr{DF(x_0, -)}{y_0} \neq 0
+    \]
+    then there exists $\varepsilon \in \R$, and $g \in C^1(B_{\varepsilon}(x_0), \R^m)$ s.t.
+    \[
+        F(x, g(x)) = 0 \qquad \qquad \forall \ x \in B_{\varepsilon}(x_0)
+    \]
+\end{theorem}
+
+The general setup is to first prove the inverse function theorem, and use it to vastly simplify the proof for the implicit function theorem. An alternative approach is to first prove the implicit function theorem, and then express the derivative of the inverse function in an implicit manner. 
+
+First setup some lemmas for further use in the proof:
+
+\begin{lemma}[Contraction Mapping Principle]\label{lem: contraction mapping principle}
+    Let $X$ be a complete normed vector space, and $M$ be a closed subset of $X$. If $f: M \to M$ is Lipschitz continuous with Lipschitz constant less than 1 (a contraction), then there exists $x_0 \in M$ s.t. $f(x_0) = x_0$.
+\end{lemma}
+
+\begin{proof}
+    Since $X$ is complete and $M$ is closed, it suffices to prove that the sequence given by $(a_n) := f^n(x)$ is Cauchy. The limit must lie in $M$ as otherwise $M$ is not equal to its closure. By hypothesis there exists $C \in [0, 1)$ s.t.
+    \[
+        \abs{f^2(x) - f(x)} < C \cdot \abs{f(x) - x} \qquad \qquad \forall \ x \in M
+    \]
+    This gives the approximation
+    \[
+        \abs{f^m(x) - x} < \sum_{k=0}^{m-1} C^k \abs{f(x) - x} < \left( \sum_{k=0}^{\infty} C^k \right) \cdot \abs{f(x) - x} = \frac{1}{1 - C} \cdot \abs{f(x) - x}
+    \]
+    which implies that $f^m(x)$ is bounded for all $m$. Further for $m < n$ we have
+    \[
+        \abs{f^n(x) - f^m(x)} \leq \sum_{k=m}^{n-1} \abs{f^{k+1}(x) - f^k(x)} < \sum_{k=m}^{n-1} C^k \abs{f(x) - x} < C^m \left(\sum_{k=0}^{\infty} C^k \abs{f(x) - x}\right) = \frac{C^m}{1 - C}\abs{f(x) - x}
+    \]
+    which can be arbitrarily small via specifying $m$ to be arbitrarily large. Therefore $(a_n)$ admits a limit $a$. Then 
+    \[
+        a = \lim_{n \to \infty} a_n = \lim_{n \to \infty} f(a_n) = f(\lim_{n \to \infty} a_n) = f(a)
+    \]
+    since $f$ is continuous (as it is Lipschitz continuous), it commutes with taking the limit.
+\end{proof}
+
+\begin{lemma}
+    Let $X$ be a normed vector space, with $L \in \{L \in \GL(X) \mid \norm{L} < 1\}$ then $(\Id - L) \in \GL(X)$. 
+\end{lemma}
+
+\begin{proof}
+    Consider the series $S = \sum_{i=k}^{\infty} L^k$. This converges as
+    \[
+        \norm{S} \leq \sum_{i=k}^{\infty} \norm{L}^k = \frac{1}{1 - \norm{L}}
+    \]
+    which is finite and well-defined as $\norm{L} \in [0, 1)$. Then consider
+    \[
+        \lim_{n \to \infty}(\Id - L)\cdot S = \Id - \lim_{n \to \infty} L^n = \Id
+    \]
+    as $\norm{L} < 1$. 
+\end{proof}
+
 \section{Preliminary Topology}
 
 \begin{definition}[Topological Space]
@@ -53,7 +119,7 @@
         \[
             \Omega = \bigcup_{x \in \Omega} (x - \varepsilon_x, x + \varepsilon_x)
         \]
-        where for each $x$, $\varepsilon_x$ is the corresponding radius s.t. the definition is satisfied; and for all $x \in \Omega$, $(\R \backslash \Omega) \cap (x - 2\varepsilon_x, x + 2\varepsilon_x) \neq \emptyset$. By definition for all $x \in \Omega$ there exists such an interval that $x$ is in it.
+        where for each $x$, $\varepsilon_x$ is the corresponding radius s.t. the definition is satisfied; and for all $x \in \Omega$, $(\R \smallsetminus \Omega) \cap (x - 2\varepsilon_x, x + 2\varepsilon_x) \neq \emptyset$. By definition for all $x \in \Omega$ there exists such an interval that $x$ is in it.
     \end{itemize}
     Then consider $\mathcal{B}' := \{(a, b) \mid a < b, a, b \in \Q\}$. Since $\Q$ is dense in $\R$, for any $x' \in \R \cap \Omega$ there exists a sequence $(x_n)$ s.t. $\lim_{n \to \infty} x_n = x'$. Choose the sequence s.t. $\abs{x_n - x'} > 2\abs{x_{n+1} - x'}$. Suppose that for all $n$, $x' \notin (x_n - \varepsilon_{x_n}, x_n + \varepsilon_{x_n})$. Then there exists some $n_0$ s.t. $(x_{n+1} - \varepsilon_{x_{n+1}}, x_{n+1} + \varepsilon_{x_{n+1}}) \subsetneq (x_n, x')$ assuming $x_n < x'$ without loss of generality, which is a contradiction.
 
@@ -98,7 +164,7 @@
         \item \emph{Base case}. For $k = 1$, this is by the definition of diffeomorphisms.
         \item \emph{Inductive step}. Suppose that this is proven for $k = m$. For $k = m+1 \leq n$, since $f$ is $C^n$-differentiable and locally injective everywhere, by inverse function theorem this gives
         \[
-            g'(x) = \frac{1}{f'(g(x))}
+            g'(x) = (f'(g(x)))^{-1}
         \]
         where by hypothesis $f'$ and $g$ are both $C^m$-differentiable, and therefore so is their composition and $g'$.
     \end{itemize}
