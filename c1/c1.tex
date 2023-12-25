@@ -14,11 +14,12 @@
 This section is dedicated to proving the following two theorems, which has various implications in differential geometry:
 
 \begin{theorem}[Inverse Function Theorem]\label{thm:inverse function theorem}
-    Let $X$, $Y$ be finite-dimensional normed vector space, $\Omega \subseteq X$ an open set, and $f: \Omega \to Y$ a continuously differentiable function. Let $x_0 \in \Omega$. If $\restr{Df}{x_0}$ is invertible, then $f$ is locally $C^{1}$-differentiable at $x_0$ (i.e. $f^{-1}$ is $C^1$-continuous), whose derivative satisfies
+    Let $X$, $Y$ be finite-dimensional normed vector space, $\Omega \subseteq X$ an open set, and $f: \Omega \to Y$ a continuously differentiable function. Let $x_0 \in \Omega$. If $\restr{Df}{x_0}$ is invertible, then $f$ is locally $C^{1}$-invertible at $x_0$ (i.e. $f^{-1}$ is $C^1$-continuous), whose derivative satisfies
     \[
         \restr{Df^{-1}}{f(x)} = (\restr{Df}{x})^{-1}
     \]
 \end{theorem}
+\vspace{1em}
 
 \begin{theorem}[Implicit Function Theorem]\label{thm:implicit function theorem}
     Let $\Omega \subseteq \R^n \times R^m$ be open, with $F \in C^1{\Omega, \R^m}$ s.t. $F(x_0, y_0) = 0$ for $(x_0, y_0) \in \Omega$. If
@@ -36,7 +37,7 @@ The general setup is to first prove the inverse function theorem, and use it to 
 First setup some lemmas for further use in the proof:
 
 \begin{lemma}[Contraction Mapping Principle]\label{lem: contraction mapping principle}
-    Let $X$ be a complete normed vector space, and $M$ be a closed subset of $X$. If $f: M \to M$ is Lipschitz continuous with Lipschitz constant less than 1 (a contraction), then there exists $x_0 \in M$ s.t. $f(x_0) = x_0$.
+    Let $X$ be a complete normed vector space, and $M$ be a closed subset of $X$. If $f: M \to M$ is Lipschitz continuous with Lipschitz constant less than 1 (a contraction), then there exists a unique $x_0 \in M$ s.t. $f(x_0) = x_0$.
 \end{lemma}
 
 \begin{proof}
@@ -57,9 +58,11 @@ First setup some lemmas for further use in the proof:
         a = \lim_{n \to \infty} a_n = \lim_{n \to \infty} f(a_n) = f(\lim_{n \to \infty} a_n) = f(a)
     \]
     since $f$ is continuous (as it is Lipschitz continuous), it commutes with taking the limit.
+
+    Uniqueness follows from the fact that if there exists $x_0 \neq x_1$ s.t. $f(x_0) = x_0, f(x_1) = x_1$, then $\abs{x_0 - x_1} = \abs{f(x_0) - f(x_1)}$ which contradicts with the hypothesis.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem: map norm invertible}
     Let $X$ be a normed vector space, with $L \in \{L \in \GL(X) \mid \norm{L} < 1\}$ then $(\Id - L) \in \GL(X)$. 
 \end{lemma}
 
@@ -73,6 +76,67 @@ First setup some lemmas for further use in the proof:
         \lim_{n \to \infty}(\Id - L)\cdot S = \Id - \lim_{n \to \infty} L^n = \Id
     \]
     as $\norm{L} < 1$. 
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{thm:inverse function theorem}]
+    Without loss of generality, assume $\restr{Df}{x_0} = \Id$; and $x_0 = 0, f(x_0) = 0$. These are done via applying an affine transformation, which preserves the property of being $C^1$-invertible. 
+
+    Consider the approximation of $f$ near $x_0 = 0$: let $g(x) = f(x) - x$. Since $g(0) = 0$ and both $f$ and $\Id$ are continuous, there exists $r$ s.t. $\closure{B_r(x)} \subseteq \Omega$, and $\norm{\restr{Dg}{x}} \leq \frac{1}{2}$ for all $x \in \Omega$. This implies that $g$ is a contraction in $\closure{B_r(0)}$, as
+    \[
+        g(x) - g(0) = \int_{0}^{x} \restr{Dg}{t} \dt = \int_{0}^{1} \restr{Dg}{xt} x \dt = x\cdot \int_{0}^{1} \restr{Dg}{xt} \dt \implies 
+        \norm{g(x)} \leq \sup_{t \in [0, 1]} \norm{\restr{Dg}{xt}} \cdot \norm{x} = \frac{1}{2} \norm{x}
+    \]
+    This implies that $f$ maps surjectively onto $\closure{B_{r/2}(0)}$: consider $h := y + g(x)$, which is a map from $\closure{B_r(0)}$ to itself. $h$ is also a contraction as
+    \[
+        \norm{h(x_1) - h(x_2)} = \norm{g(x_1) - g(x_2)} \leq \frac{1}{2} \norm{x_1 - x_2}
+    \] 
+    Further the space on which $h$ acts is closed.\footnote{The point of taking the closure of $B_r(0)$ in the construction is to apply the contraction mapping principle here, as it requires the space to be closed.} This implies that there exists a fixed point $x_0$ for $h$; but this implies a preimage:
+    \[
+        x_0 = y + x_0 - f(x_0) \implies f(x_0) = y
+    \]
+    Then $f$ is a bijection on $\Omega_1 \to f(\Omega_1)$, where $\Omega_1 = f^{-1} B_{r/2}(0) \cap B_r(0)$. The continuity of $f$, and the fact that $g$ is a contraction is preserved through restriction of domain. Therefore we have
+    \begin{align*}
+        \norm{x_1 - x_2} 
+        & = \norm{(f(x_1) - f(x_2)) - (g(x_1) - g(x_2))} \\
+        & \leq \norm{f(x_1) - f(x_2)} + \norm{g(x_1) - g(x_2)} \\
+        & \leq \norm{f(x_1) - f(x_2)} + \frac{1}{2} \norm{x_1 - x_2}
+    \end{align*}
+    which implies that 
+    \begin{equation}\tag{$\ast$}\label{eq: linear bound on f}
+        \frac{1}{2} \norm{x_1 - x_2} \leq \norm{f(x_1) - f(x_2)} \implies \norm{x_1 - x_2} = \norm{f^{-1}(y_1) - f^{-1}(y_2)} \leq 2\norm{y_1 - y_2}
+    \end{equation}
+    i.e. $y$ is continuous. It is safe to take the inverse as $f$ is a bijection in the domain specified. 
+
+    Now prove the theorem. By the setup we have $\norm{\Id - \restr{Df}{x_1}} = \norm{\restr{Dg}{x_1}} \leq \frac{1}{2}$ for all $x_1 \in \Omega$, which by Lemma \ref{lem: map norm invertible} implies that $\restr{Df}{x}$ is invertible for all such $x$. Since $f$ is differentiable, there exists $\restr{Df}{x_1}$ s.t. 
+    \[
+        f(x) - f(x_1) = \restr{Df}{x_1} (x - x_1) + o(\norm{x - x_1})
+    \]
+    for $x \in B_{\eta}(x_1)$ for some $\eta$. This implies that
+    \[
+        (\restr{Df}{x_1})^{-1}(f(x) - f(x_1)) = (x - x_1) + o(\norm{x - x_1})
+    \]
+    Further restrict $x_1 \in \Omega_1$ where we have the linear bound \eqref{eq: linear bound on f}. After substituting the variables we have
+    \[
+        (\restr{Df}{f^{-1}(y_1)})^{-1}(y - y_1) = (f^{-1}(y) - f^{-1}(y_1)) + o(\norm{y - y_1})
+    \]
+    which gives by the definition of derivative
+    \[
+        (\restr{Df}{x})^{-1} = \restr{Df^{-1}}{f(x)} 
+    \]
+    Now consider the chain of functions
+    \[
+        y \tooh{f^{-1}} f^{-1}y \tooh{Df} \restr{Df}{f^{-1}y} \tooh{(-)^{-1}} (\restr{Df}{f^{-1}y})^{-1}
+    \]
+    where $Df$ is by hypothesis continuous; and $f^{-1}$ is continuous according to the proof above. This implies that the composition, which is the derivative of the inverse function, is continuous, i.e. $f$ is $C^1$-invertible.
+\end{proof}
+
+This greatly simplifies the proof of the Implicit Function Theorem:
+\begin{proof}[Proof of Theorem \ref{thm:implicit function theorem}]
+    Consider the map $\Phi: \R^n \times \R^m \to \R^n \times \R^m$, $(x, y) \mapsto (x, F(x, y))$. Since $\det DF = \det D\Phi \neq 0$ by Laplace expansion, which implies that $D\Phi$ is invertible. This allows application of Inverse Function Theorem, which implies that there exists $\Psi = \Phi^{-1}$ taking the form of $(x, y) \mapsto (x, G(x, y))$. Now consider specifically
+    \[
+        (x, 0) = \Phi \circ \Psi(x, 0) = \Phi(x, G(x, 0)) = (x, F(x, G(x, 0)))
+    \]
+    which implies that there exists $g := G(-, 0)$ satisfying the requirement. Since the inverse function is uniquely determined, such $g$ is also uniquely defined.
 \end{proof}
 
 \section{Preliminary Topology}
