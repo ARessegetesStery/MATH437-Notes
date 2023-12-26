@@ -194,7 +194,7 @@ This greatly simplifies the proof of the Implicit Function Theorem:
     For $\R^n$, the \underline{standard topology} is defined as where a set $\Omega$ is open if and only if for every $x \in \Omega$ there exists $\varepsilon > 0$ s.t. $B_{\varepsilon}^n (x) \subseteq \Omega$. 
 \end{remark}
 
-\begin{corollary}
+\begin{corollary}\label{cor: R^n countable basis}
     By the same proof, and considering open intervals as $1$-balls on $\R^1$, this gives that $\R^n$ with the standard topology admits a countable basis of topology. 
 \end{corollary}
 
@@ -240,5 +240,90 @@ This greatly simplifies the proof of the Implicit Function Theorem:
 \end{remark}
 
 \section{Differentiable Manifolds}
+
+\begin{definition}[Manifold]
+    An \textbf{$n$-dimensional topological manifold ($n$-manifold)} $M$ is a Hausdorff space with a countable basis of topology s.t. for every $p \in M$ there exists an open $U(p)$ s.t. there exists a homeomorphism $\varphi_p: U(p) \to \Omega \subseteq R^n$.
+\end{definition}
+
+\begin{definition}[Chart; Atlas; Compatibility]
+    For the homeomorphisms defined as above, the pair $(U(p), \varphi_p)$ is an \textbf{$n$-dimensional chart}. An \textbf{atlas} is a set of charts whose domains $U(p)$ covers the whole space $M$, i.e. for all $r \in M$, there exists $p \in M$ s.t. the corresponding chart $(U(p), \varphi_p)$ satisfies $r \in U(p)$. 
+
+    Given two $n$-charts $(U, \varphi)$ and $(V, \psi)$, a \textbf{change of chart} between the charts is a map
+    \[
+        \psi \circ \varphi^{-1} : \varphi(U \cap V) \to \psi(U \cap V) \in \{f \mid f: \R^n \to \R^n\}
+    \]
+    These two charts are \textbf{compatible} if the change of chart is a $C^{\infty}$-diffeomorphism. An atlas where all charts are compatible is a $C^{\infty}$-atlas.
+\end{definition}
+
+\begin{definition}[Smooth Manifold]
+    An $n$-manifold is \textbf{smooth (differentiable)} if it admits a maximal $C^{\infty}$-atlas (as a set). 
+\end{definition}
+
+\begin{remark}
+    Since the atlas is required to be $C^{\infty}$, it suffices to consider the equivalence class via specifying an atlas whose domains cover the whole manifold, and consider the atlas thus spanned. There exists manifolds that are not smooth (i.e. does not admit a $C^{\infty}$-atlas) if for all valid charts the maximal set of charts spanned by it does not cover the whole manifold.
+    
+    Under the context of smooth manifolds, one will not consider atlases that are not $C^{\infty}$, but instead consider this manifold as not having an atlas.
+\end{remark}
+
+The followings studies a particular example of manifolds:
+
+\begin{definition}[Projective Space]
+    Consider the equivalence relation for $x, y \in \R^{n+1}$ where $x \sim y$ if and only if there exists $\lambda \in \R$ s.t. $\lambda x = y$. The \textbf{$n$-dimensional real projective space} is defined as $\R^{n+1}/(\sim) =: P(\R^{n+1})$, which is often denoted as $\RP^n$.
+\end{definition}
+
+\begin{proposition}
+    $\RP^n$ is a smooth $n$-manifold.
+\end{proposition}
+
+\begin{proof}
+    To specify the manifold structure it suffices to give the topology together with an atlas. 
+
+    First consider the \underline{quotient topology} of the projective space: let $\pi: \R^{n+1} \smallsetminus \{0\} \to \RP^n$ be the quotient map specified by the equivalence class each point represents. Define $\Omega' \subseteq \RP^n$ to be open if and only if $f^{-1}(\Omega')$ is open. The topology is indeed well-defined as $\pi$ commutes with both intersection and union of sets. This also implies that $\RP^n$ admits a countable basis of topology, as by Corollary \ref{cor: R^n countable basis} $\R^{n}$ is compact for all finite $n$.
+
+    Further consider the charts given by
+    \[
+        \varphi_i: \RP^n \to \R^n, \qquad \overline{(x_1, \cdots, x_{n+1})} \mapsto \frac{1}{x_{i}} (x_1, \cdots, x_{i-1}, x_{i+1}, \cdots, x_{n})
+    \]
+    where $\varphi_i$ is defined for all $x \in X_i := \{x \in \RP^n \mid \forall\  \overline{(x_1, \cdots, x_{n+1})} \in [x], x_i \neq 0\}$. This is clearly open as for all $\tilde{x} \in X_i$, $B_{\tilde{x}_i/2}(\tilde{x}) \subseteq X_i$. Domains of $\varphi_i$s cover the whole space, as for any $y \in \RP^n$, every representative $\tilde{y}$ of $y$ must have at least some field $\tilde{y}_j$ that is nonzero. Then it is covered by the domain of $\varphi_j$. Change of charts is linear according to the construction above, and therefore is smooth.
+\end{proof}
+
+\begin{remark}
+    $\RP^n$ is further compact, as it can be considered as $S^n / (\sim)$ where points sharing the same diameter are considered to be equivalent. The quotient topology implies that $\pi: \RP^n \to S^n / (\sim)$ is continuous. Therefore, $\RP^n$ is compact as $S^n$ is. 
+    
+    Notice that continuous maps preserve compactness. Let $f: M \to N$ be continuous. Then every open cover of $N$ corresponds to an open cover of $M$, which by compactness of $M$ gives a finite sub-cover $U$. Then $f(U)$ gives a finite open cover of $N$. 
+\end{remark}
+
+\begin{definition}[Submanifold]
+    Let $N$ be a smooth $n$-manifold, and $\mathcal{A}$ be its atlas (which is $C^{\infty}$). Then an \textbf{$m$-dimensional submanifold} $M$ of $N$ is a subset $M$ of $N$ s.t. for all $p$ there exists a chart $(U, \varphi_p)$ which is in some maximal atlas of $N$ s.t.
+    \[
+        M \cap U(p) = \varphi^{-1}(\varphi(U) \cap (\R^m \times \{0\}))
+    \] 
+    Then $(U \cap M, \restr{\varphi_p}{M})$ is called the \textbf{adapted chart}; and $(n - m)$ is the \textbf{codimension} of $M$ in $N$.
+\end{definition}
+
+\begin{remark}
+    Every submanifold is in itself a manifold, as restriction of topology preserves Hausdorff property and a countable basis of topology.
+\end{remark}]
+
+\begin{definition}[Smooth Maps]
+    Consider smooth maps in general between smooth manifolds:
+    \begin{itemize}
+        \item Let $(M, \mathcal{A})$ and $(N, \mathcal{A}')$ be two smooth manifolds. Then $F: M \to N$ is \textbf{smooth} if for $(U, \varphi_p) \in \mathcal{A}$ and $(V, \varphi_{F(p)}') \in \mathcal{A}'$ the map
+        \[
+            \varphi_{F(p)}' \circ F \circ \varphi_P^{-1} : \varphi_P(U \cap F^{-1}(V)) \to \varphi_{F(p)}' (F(U) \cap V)
+        \]
+        is smooth as an endomorphism on $\R^n$.
+        \item Let $I \subseteq \R$ be an interval. Then a \textbf{smooth curve} on $M$ is a curve with a parameterization $\gamma: I \to M$ that is smooth (considered as a map between manifolds). 
+        \item $f: M \to \R$ is a \textbf{smooth function} if $f$ is smooth as a map between manifolds. Smooth functions on $M$ are denoted by $C^{\infty}(M)$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    If $F: M \to N$ is smooth, with $F^{-1}$ exists and is smooth, then $F$ is a \textbf{diffeomorphism}, with $M$ and $N$ \textbf{diffeomorphic}. Diffeomorphisms that are endomorphisms on $M$ are denoted as $\Diff(M)$, or $\Diffeo(M)$.
+\end{definition}
+
+In the next section, more details of smooth manifolds will be discussed, which will lead to natural (and general) construction of submanifolds.
+
+\section{Tangent Space and the Differential}
 
 \end{document}
