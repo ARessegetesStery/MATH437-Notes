@@ -42,10 +42,11 @@
 \def\abs#1{\left|#1\right|}
 \def\norm#1{\left\|#1\right\|}
 \def\nequiv{\centernot\equiv}
-\def\im{\mathrm{im}\ }
+\def\im{\mathrm{im}}
 \def\Id{\mathrm{Id}}
 \def\bigmid{\ \Big|\ }
 \def\rank{\mathrm{rank}}
+\def\linspan{\mathrm{span}}
 \def\Hom{\mathrm{Hom}}
 \def\End{\mathrm{End}}
 \def\Aut{\mathrm{Aut}}
@@ -70,6 +71,11 @@
 \def\closure#1{\overline{#1}}
 \def\restr#1#2{\left.#1\right|_{#2}}
 
+\def\ppd#1{\frac{\partial}{\partial #1}}
+\def\pp#1#2{\frac{\partial #1}{\partial #2}}
+
+\renewcommand{\implies}{\ \ensuremath{\Longrightarrow}\ }
+
 \newtheoremstyle{example}
 {3pt} % Space above
 {3pt} % Space below
@@ -81,6 +87,16 @@
 {} % Theorem head spec (can be left empty, meaning `normal')
 
 \newtheoremstyle{parenthesis}
+{3pt} % Space above
+{3pt} % Space below
+{\textup} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{.5em} % Space after theorem head
+{} % Theorem head spec (can be left empty, meaning `normal')
+
+\newtheoremstyle{notation}
 {3pt} % Space above
 {3pt} % Space below
 {\textup} % Body font
@@ -102,6 +118,7 @@
 \newtheorem{corollary}[definition]{Corollary}
 \theoremstyle{definition}
 \newtheorem{parenthesis}[definition]{Parenthesis}
+\newtheorem{notation}[definition]{Notation}
 \theoremstyle{definition}
 \newtheorem{example}[definition]{Example}
 

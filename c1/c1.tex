@@ -246,7 +246,7 @@ This greatly simplifies the proof of the Implicit Function Theorem:
 \end{definition}
 
 \begin{definition}[Chart; Atlas; Compatibility]
-    For the homeomorphisms defined as above, the pair $(U(p), \varphi_p)$ is an \textbf{$n$-dimensional chart}. An \textbf{atlas} is a set of charts whose domains $U(p)$ covers the whole space $M$, i.e. for all $r \in M$, there exists $p \in M$ s.t. the corresponding chart $(U(p), \varphi_p)$ satisfies $r \in U(p)$. 
+    For the homeomorphisms defined as above, the pair $(U(p), \varphi_p)$ is an \textbf{$n$-dimensional (coordinate) chart}. An \textbf{atlas} is a set of charts whose domains $U(p)$ covers the whole space $M$, i.e. for all $r \in M$, there exists $p \in M$ s.t. the corresponding chart $(U(p), \varphi_p)$ satisfies $r \in U(p)$. 
 
     Given two $n$-charts $(U, \varphi)$ and $(V, \psi)$, a \textbf{change of chart} between the charts is a map
     \[
@@ -325,5 +325,146 @@ The followings studies a particular example of manifolds:
 In the next section, more details of smooth manifolds will be discussed, which will lead to natural (and general) construction of submanifolds.
 
 \section{Tangent Space and the Differential}
+
+It is then immediate to try to approximate functions between manifolds, just as those over real vector spaces. This requires some constructions beforehand:
+
+\begin{definition}[Parameterized Surface]
+    A \textbf{(smooth) parameterized $m$-surface} in $\R^n$ is a subset $\mathcal{S} \subseteq \R^n$ s.t. there exists a locally bijective, continuously differentiable map $\sigma: \Omega \to \mathcal{S}$ for $\Omega \subseteq \R^m$ s.t. $\rank \restr{D\sigma}{x} = m$ almost everywhere. For $x$ satisfying such conditions, $f(x) \in \mathcal{S}$ is called a \textbf{regular value}.
+\end{definition}
+
+\begin{definition}[Tangent Vector, Tangent Space (in $\R^n$)]
+    Let $\mathcal{S} \subseteq \R^n$ be a smooth parameterized $m$-surface, together with the parameterization $\sigma: \R^m \supseteq \Omega \to \mathcal{S}$. The \textbf{$k$-th tangent vector at $p \in \mathcal{S}$} is given by
+    \[
+        t_k(p) = \restr{\ppd{x_k} \begin{pmatrix} \sigma_1(x) \\ \vdots \\ \sigma_n(x) \end{pmatrix}}{x = \sigma^{-1}(p)}
+    \]
+    and the \textbf{tangent space} to $\mathcal{S}$ at $p$ is defined as
+    \[
+        T_p \mathcal{S} := \linspan\{ t_1(p), \cdots, t_m(p)\}
+    \]
+    with the elements of the tangent space \textbf{tangent vectors} to $\mathcal{S}$ at $p$.
+\end{definition}
+
+It is then natural to extend the definition to submanifolds:
+
+\begin{definition}[Tangent Space (as Submanifolds)]
+    Let $M \subseteq \R^n$ be a $m$-manifold. Let $p \in M$ together with a chart $(U, \varphi)$ satisfying that $p \in U$. Then the \textbf{tangent space of $M$ at $p$} is defined as
+    \[
+        T_pM := (\restr{D\varphi}{p})^{-1}(\R^m \times \{0\})
+    \]
+\end{definition}
+
+\begin{remark}
+    Notice that the tangent space defined as above is independent of the choice of chart. Inverse Function Theorem gives $(\restr{D\varphi}{p})^{-1} = \restr{D\varphi^{-1}}{\varphi(p)}$. Let $(V, \psi)$ be another chart s.t. it is compatible with $(U, \varphi)$. This allows expanding the chart using the chain rule:
+    \begin{align*}
+        \im \restr{D(\varphi^{-1})}{\varphi(p)}
+        & = \im \restr{D(\psi^{-1} \circ \psi \circ \varphi^{-1})}{\varphi(p)} \\
+        & = \im \restr{D\psi^{-1}}{\psi(p)} \cdot \restr{D(\psi \circ \varphi^{-1})}{\varphi(p)}
+    \end{align*}
+    Since both $\psi$ and $\varphi$ are invertible, $\psi \circ \varphi^{-1}$ are locally bijective, which implies that $\im \restr{D(\varphi^{-1})}{\varphi(p)} = \im \restr{D(\psi^{-1})}{\psi(p)}$
+\end{remark}
+
+\begin{remark}
+    Notice that the definition above requires the existence of an ``ambient space'' around the manifold ($\R^n$), as this characterizes elements in $T_pM$ (as elements in $\R^n$).
+\end{remark}
+
+\begin{definition}[Coordinate Function, Directional Derivative]
+    The \textbf{coordinate function} of standard coordinates $x^i$ is the extraction of $i$-th coordinate:
+    \[
+        x^i : \R^n \to \R, \qquad (x_1, \dots, x_n) \mapsto x_i
+    \]
+    This immediately gives the \textbf{coordinate function of chart ($U, \varphi$)} to be
+    \[
+        \varphi^i: M \to R, \qquad \varphi^i := x^i \circ \varphi
+    \]
+    Then, for a function $f: M \to \R^n$, one can naturally define the \textbf{directional derivative} (in the only way that is syntactically true):
+    \[
+        \restr{\pp{}{\varphi^i}}{p} (f) = \restr{\pp{f}{\varphi^i}}{p} := \restr{\pp{(f \circ \varphi^{-1})}{x^i}}{\varphi(p)}
+    \]
+    where the right-most term is simply the partial differentiation of functions between Euclidean spaces.
+\end{definition}
+
+The following forms an ``standalone'' definition, which turns out to be compatible with the definition above under the context of submanifolds.
+
+\begin{definition}[Tangent Vector (Standalone)]
+    Let $M$ be a smooth $n$-manifold, with $p \in M$. Then
+    \begin{enumerate}[label=\roman*)]
+        \item An \textbf{algebraic tangent vector (as derivatives)} is defined as a linear map $\partial: C^{\infty}(M) \to \R$ where $C^{\infty}(M)$ is defined as the smooth functions $M \to \R$, which satisfies the product rule (Leibniz rule):
+        \[
+            \forall f, g \in C^{\infty}(M), \qquad \partial(f \cdot g) = (\partial f) \cdot g + f \cdot (\partial g)
+        \]
+        \item A \textbf{physical tangent vector} associated to a chart $(U, \varphi)$ where $p \in \varphi$, which is essentially a transformation into $\R^n$ (as in the previous case where the tangent space is treated as a submanifold of $\R^n$), is defined as a vector $v_{\varphi} \in \R^n$, satisfying the compatibility of change of charts: for all charts $(V, \psi)$ s.t. $p \in V$,
+        \[
+            v_{\psi} = \restr{D(\psi \circ \varphi^{-1})}{\varphi(p)} \cdot v_{\varphi}
+        \]
+        Expressed in each coordinate, the transformation essentially becomes the directional derivative
+        \[
+            v_{\psi}^i = \sum_{k = 1}^n \restr{\pp{(\psi \circ \varphi^{-1})}{x^k}}{\varphi(p)} (v_{\varphi}^k) = \sum_{k=1}^n \restr{\pp{\psi}{\varphi^k}}{p} (v_{\varphi}^k)
+        \]
+        \item A \textbf{geometric tangent vector}, or a \textbf{tangent curve} at $p$ is an equivalence class of smooth curves $\gamma: I \to M$, s.t. $0 \in I \subseteq R$, and $\gamma(0) = p$; and for $p$ supported by the chart $(U, \varphi)$ the equivalence relation given by
+        \[
+            \gamma_1 \sim \gamma_2 \quad \iff \quad (\varphi \circ \gamma_1)'(0) = (\varphi \circ \gamma_2)'(0)
+        \]
+    \end{enumerate}
+    It will be shown later that all these three definitions are equivalent.
+\end{definition}
+
+\begin{remark}
+    The definition of algebraic tangent vectors is completely unrelated to the charts. The equivalence relation defined in geometric tangent vector is also independent of the chart, as for a different chart $(V, \psi)$ s.t. $p \in V$,
+    \begin{align*}
+        (\psi \circ \gamma_1)'(0) 
+        & = (\psi \circ \varphi^{-1} \circ \varphi \circ \gamma_1)'(0) \\
+        & = (\psi)'(\gamma_1(0)) \cdot (\varphi^{-1})'(\varphi \circ \gamma_1(0)) \cdot (\varphi \circ \gamma_1)'(0) \\
+        & = (\psi)'(p) \cdot (\varphi^{-1})'(\varphi(p)) \cdot (\varphi \circ \gamma_1)'(0) \\
+        & = (\psi)'(\gamma_2(0)) \cdot (\varphi^{-1})'(\varphi \circ \gamma_2(0)) \cdot (\varphi \circ \gamma_2)'(0) \\
+        & = (\psi \circ \gamma_2)'(0)
+    \end{align*}
+\end{remark}
+
+\begin{theorem}
+    The definition of previous three tangent vectors are equivalent. That is, given any one of them, the other two can be uniquely determined.
+\end{theorem}
+
+\begin{proof}
+    It suffices to give the construction of the corresponding tangent vectors:
+    \begin{itemize}
+        \item \emph{i) \implies ii).} Given an algebraic tangent vector $\partial: C^{\infty}(M) \to \R$, for $p \in U \cap V$ where $(U, \varphi)$ and $(V, \psi)$ are two charts of $M$, define
+        \[
+            v_{\varphi}^i := \partial(\varphi^i)
+        \]
+        Check that this satisfies the compatibility requirement: 
+        \begin{align*}
+            v_{\psi}^i
+            & = \partial(\psi^i) = \partial((\psi^i \circ \varphi^{-1}) \circ \varphi) \\
+            & \overset{1}{=} \sum_{j=1}^n \partial(\psi^i \circ \varphi^{-1} \circ \varphi^j) \\
+            & \overset{2}{=} \sum_{j=1}^n \restr{\pp{(\psi^i \circ \varphi^{-1})}{x^i}}{\varphi(p)} v_{\varphi}^j
+        \end{align*}
+        where equality 1 holds by the linearity of $\partial$; and equality 2 is essentially the chain rule applied to derivation, which is determined by the requirement that the Leibniz rule holds. This is exactly the form required.
+        \item \emph{ii) \implies i).} For any instance $v_{\varphi}$ as a physical tangent vector under chart $(U, \varphi)$, define
+        \[
+            \partial := \sum_{i=1}^n v_{\varphi}^i \restr{\pp{}{\varphi^i}}{p}
+        \]
+        Check the followings:
+        \begin{itemize}
+            \item \emph{$\partial$ is well-defined, i.e. does not depend on the choice of chart.} Expand using the definition of directional derivatives and transition between charts of physical tangent vectors, we have for all $f \in C^{\infty}(M)$,
+            \begin{align*}
+                \partial(f)
+                & := \sum_{i = 1}^n v_{\varphi}^i \cdot \restr{\pp{}{\varphi^i}}{p}(f) = \sum_{i = 1}^n \restr{\pp{(f \circ \varphi^{-1})}{x^i}}{\varphi(p)} (f) \\
+                & = \sum_{i = 1}^n \restr{\pp{(f \circ (\varphi^i)^{-1})}{x^i}}{\varphi(p)} (f) \\
+                & \overset{1}{=} \sum_{i = 1}^n \left( \left( \sum_{j=1}^{n} \restr{\pp{(\varphi^i \circ \psi^{-1})}{x^j}}{\psi(p)} v_{\psi}^j \right) \cdot \restr{\pp{(f \circ (\varphi^i)^{-1})}{x^i}}{\varphi(p)} (f) \right) \\
+                & \overset{2}{=} \sum_{j = 1}^{n} \left( v_{\varphi}^j \left( \sum_{i = 1}^{n} \restr{\pp{(\varphi^i \cdot \psi^{-1})}{x^j}}{\psi(p)} \right) \cdot \restr{\pp{(f \circ (\varphi^i)^{-1})}{x^i}}{\varphi(p)} (f) \right) \\
+                & \overset{3}{=} \sum_{j = 1}^{n} \left( v_{\varphi}^j \cdot \restr{\pp{(\varphi^j \circ \psi^{-1})}{x^j}}{\psi(p)} \cdot \restr{\pp{(f \circ (\varphi^i)^{-1})}{x^j}}{\varphi(p)} (f) \right) \\
+                & = \sum_{j = 1}^n v_{\varphi}^j \cdot \restr{\pp{(f \circ \psi^{-1})}{x^j}}{\psi(p)} (f) = \sum_{i = 1}^n v_{\psi}^i \cdot \restr{\pp{}{\psi^i}}{p}(f)
+            \end{align*}
+            where
+            \begin{enumerate}
+                \item Equality 1 holds by the definition of the transition between physical tangent vectors.
+                \item Equality 2 holds by changing the summation between $i$ and $j$. Notice that $\restr{\pp{(\varphi^i \cdot \psi^{-1})}{x^j}}{\psi(p)}$ is a scalar, while applying it to $v_{\psi}^j$ is simply multiplication. 
+                \item Equality 3 holds as the variables $x^i$ and $x^j$ are independent for $i \neq j$. Therefore the summation can be simplified to be only with one variable.
+            \end{enumerate}
+            \item \emph{Leibniz rule holds.} This is simply the product rule of normal derivatives.
+        \end{itemize}
+        \item \emph{ii) \implies iii).} 
+    \end{itemize}
+\end{proof}
 
 \end{document}
