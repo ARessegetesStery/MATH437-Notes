@@ -13,7 +13,7 @@
 
 This section is dedicated to proving the following two theorems, which has various implications in differential geometry:
 
-\begin{theorem}[Inverse Function Theorem]\label{thm:inverse function theorem}
+\begin{theorem}[Inverse Function Theorem]\label{thm: inverse function theorem}
     Let $X$, $Y$ be finite-dimensional normed vector space, $\Omega \subseteq X$ an open set, and $f: \Omega \to Y$ a continuously differentiable function. Let $x_0 \in \Omega$. If $\restr{Df}{x_0}$ is invertible, then $f$ is locally $C^{1}$-invertible at $x_0$ (i.e. $f^{-1}$ is $C^1$-continuous), whose derivative satisfies
     \[
         \restr{Df^{-1}}{f(x)} = (\restr{Df}{x})^{-1}
@@ -21,7 +21,7 @@ This section is dedicated to proving the following two theorems, which has vario
 \end{theorem}
 \vspace{1em}
 
-\begin{theorem}[Implicit Function Theorem]\label{thm:implicit function theorem}
+\begin{theorem}[Implicit Function Theorem]\label{thm: implicit function theorem}
     Let $\Omega \subseteq \R^n \times R^m$ be open, with $F \in C^1{\Omega, \R^m}$ s.t. $F(x_0, y_0) = 0$ for $(x_0, y_0) \in \Omega$. If
     \[
         \det \restr{DF(x_0, -)}{y_0} \neq 0
@@ -78,7 +78,7 @@ First setup some lemmas for further use in the proof:
     as $\norm{L} < 1$. 
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{thm:inverse function theorem}]
+\begin{proof}[Proof of Theorem \ref{thm: inverse function theorem}]
     Without loss of generality, assume $\restr{Df}{x_0} = \Id$; and $x_0 = 0, f(x_0) = 0$. These are done via applying an affine transformation, which preserves the property of being $C^1$-invertible. 
 
     Consider the approximation of $f$ near $x_0 = 0$: let $g(x) = f(x) - x$. Since $g(0) = 0$ and both $f$ and $\Id$ are continuous, there exists $r$ s.t. $\closure{B_r(x)} \subseteq \Omega$, and $\norm{\restr{Dg}{x}} \leq \frac{1}{2}$ for all $x \in \Omega$. This implies that $g$ is a contraction in $\closure{B_r(0)}$, as
@@ -131,7 +131,7 @@ First setup some lemmas for further use in the proof:
 \end{proof}
 
 This greatly simplifies the proof of the Implicit Function Theorem:
-\begin{proof}[Proof of Theorem \ref{thm:implicit function theorem}]
+\begin{proof}[Proof of Theorem \ref{thm: implicit function theorem}]
     Consider the map $\Phi: \R^n \times \R^m \to \R^n \times \R^m$, $(x, y) \mapsto (x, F(x, y))$. Since $\det DF = \det D\Phi \neq 0$ by Laplace expansion, which implies that $D\Phi$ is invertible. This allows application of Inverse Function Theorem, which implies that there exists $\Psi = \Phi^{-1}$ taking the form of $(x, y) \mapsto (x, G(x, y))$. Now consider specifically
     \[
         (x, 0) = \Phi \circ \Psi(x, 0) = \Phi(x, G(x, 0)) = (x, F(x, G(x, 0)))
@@ -346,7 +346,7 @@ It is then immediate to try to approximate functions between manifolds, just as 
 
 It is then natural to extend the definition to submanifolds:
 
-\begin{definition}[Tangent Space (as Submanifolds)]
+\begin{definition}[Tangent Space (as Submanifolds)]\label{def: tangent space in R^n}
     Let $M \subseteq \R^n$ be a $m$-manifold. Let $p \in M$ together with a chart $(U, \varphi)$ satisfying that $p \in U$. Then the \textbf{tangent space of $M$ at $p$} is defined as
     \[
         T_pM := (\restr{D\varphi}{p})^{-1}(\R^m \times \{0\})
@@ -408,7 +408,7 @@ The following forms an ``standalone'' definition, which turns out to be compatib
     It will be shown later that all these three definitions are equivalent.
 \end{definition}
 
-\begin{remark}
+\begin{remark}\label{rmk: geometric tangent vector independent of chart}
     The definition of algebraic tangent vectors is completely unrelated to the charts. The equivalence relation defined in geometric tangent vector is also independent of the chart, as for a different chart $(V, \psi)$ s.t. $p \in V$,
     \begin{align*}
         (\psi \circ \gamma_1)'(0) 
@@ -463,8 +463,182 @@ The following forms an ``standalone'' definition, which turns out to be compatib
             \end{enumerate}
             \item \emph{Leibniz rule holds.} This is simply the product rule of normal derivatives.
         \end{itemize}
-        \item \emph{ii) \implies iii).} 
+        \item \emph{ii) \implies iii).} Let $p$ be in the support of chart $(U, \varphi)$. Define the curve to be $\gamma_{\varphi} (t) := \varphi^{-1}(\varphi(p) + t \cdot v_{\varphi})$. Check: $\gamma_{\varphi}(0) = \varphi^{-1}(\varphi(p)) = p$. By Remark \ref{rmk: geometric tangent vector independent of chart}, the equivalence class thus defined is independent of the chart chosen.
+        \item \emph{iii) \implies ii).} Given an equivalence class of curves on $M$ $[\gamma]$, define the physical tangent vector associated to a chart $(U, \varphi)$ supporting $p$ to be
+        \[
+            v_{\varphi} := (\varphi \circ \gamma)'(0)
+        \]
+        Check that this satisfies the transition function as defined for physical tangent vectors: by chain rules we have
+        \begin{align*}
+            v_{\psi}
+            & := (\psi \circ \gamma)'(0) \\
+            & = (\psi \circ (\varphi^{-1} \circ \varphi) \circ \gamma)'(0) \\
+            & = (\psi \circ \varphi^{-1})'(\varphi \circ \gamma(0)) \cdot (\varphi \circ \gamma)'(0) \\
+            & = \restr{D(\psi \circ \varphi^{-1})}{\varphi(p)} \cdot \restr{D(\varphi \circ \gamma)}{0} \\
+            & = \restr{D(\psi \circ \varphi^{-1})}{\varphi(p)} \cdot v_{\varphi}
+        \end{align*}
     \end{itemize}
 \end{proof}
+
+Recall that in Definition \ref{def: tangent space in R^n} which is under the context of $\R^n$, the tangent space is naturally a subspace of $\R^n$, with dimension equal to $m$, as $\varphi$ is locally bijective. We now seek to verify this property holds in the independently defined tangent space.
+
+\begin{theorem}\label{thm: dim of tangent space}
+    Let $M$ be a $n$-manifold, with $p \in M$ in the support of chart $(U, \varphi)$. Then the tangent vectors $\left\{ \restr{\pp{}{\varphi^1}}{p}, \dots, \restr{\pp{}{\varphi^1}}{n} \right\}$ gives a basis of $T_pM$. This is the \underline{standard basis of $T_pM$ w.r.t. chart $(U, \varphi)$}. In particular, $\dim T_pM = \dim M$.
+\end{theorem}
+
+\begin{lemma}\label{lem: approx of f at p}
+    Let $M$ be a $n$-manifold, with a chart $(U, \varphi)$ s.t. $p \in U$. Then in some neighborhood around $p$
+    \[
+        f = f(p) + \sum_{i = 1}^{n} (\varphi^i - \varphi^i(p)) \cdot f_i
+    \]
+    where $f_i := \pp{f}{\varphi^i}$.
+\end{lemma}
+
+\begin{proof}
+    Define $g := f \circ \varphi^{-1}$. Then by the Fundamental Theorem of Calculus
+    \begin{align*}
+        g(x) - g(x_0) 
+        & = \int_{0}^{1} \dd{}{t} g(t x + (1 - t) x_0) \d t \\
+        & = \sum_{i = 1}^{n} (x^i - x_0^i) \int_{0}^{1} \pp{}{x^i} g(t x + (1 - t) x_0) \d t
+    \end{align*}
+    Define
+    \[
+        g_i(x) = \int_{0}^{1} \pp{}{x^i} g(t x + (1 - t) x_0) \d t
+    \]
+    Then the equality above becomes
+    \[
+        g(x) - g(x_0) = \sum_{i = 1}^{n} (x^i - x_0^i) g_i(x)
+    \]
+    Apply composition on the right by $\varphi$ gives the desired form. Check that $f_i$ is indeed given by such form:
+    \[
+        f_i(x) = \int_{0}^{1} \pp{}{x^i} g(t \varphi(x) + (1 - t) \varphi(x_0)) \d t = (x^i - x_0^i)^{-1} \left( \int_{0}^{1} \dd{}{t} g(t x + (1 - t) x_0) \d t \right)
+    \]
+    which is exactly the definition of $\pp{f}{\varphi^i} := \pp{f \circ \varphi^{-1}}{x^i}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{thm: dim of tangent space}]
+    It suffices to check that the tangent vector $T_p := \left\{ \restr{\pp{}{\varphi^1}}{p}, \dots, \restr{\pp{}{\varphi^1}}{n} \right\}$ are linearly independent, and span the whole tangent space:
+    \begin{itemize}
+        \item \emph{$T_p$ spans $T_p M$.} For $v \in T_pM$, by Lemma \ref{lem: approx of f at p} we have
+        \begin{align*}
+            v(f)
+            & = v\left( f(p) + \sum_{i = 1}^{n} (\varphi^i - \varphi^i(p)) f_i \right) \\
+            & = v(f(p)) + \sum_{i = 1}^{n} v \left( (\varphi^i - \varphi^i(p)) f_i \right) \\
+            & = 0 + \sum_{i = 1}^{n} (v(\varphi^i) f_i + \restr{(\varphi^i - \varphi^i(p))}{p} v(f_i)) \\
+            & = \sum_{i = 1}^{n} (v(\varphi^i) f_i) = \sum_{i = 1}^{n} v(\varphi^i) \restr{\pp{f}{\varphi^i}}{p}
+        \end{align*}
+        by the product rule and linearity of $v$, as is in the definition of algebraic tangent vectors.
+        \item \emph{$T_p$ are linearly independent.} Since $\varphi^i := x^i \circ \varphi$, $\pp{\varphi^i}{\varphi^j} = \delta_j^i$ which is 1 if $i = j$; and is 0 otherwise. Written more explicitly, for $\lambda_1, \lambda_2 \in \R$,
+        \[
+            \lambda_1 \restr{\pp{}{\varphi^i}}{p} + \lambda_2 \restr{\pp{}{\varphi^j}}{p} = 0 \implies 
+            \lambda_1 = \lambda_1 \restr{\pp{}{\varphi^i}}{p} \varphi^i + \lambda_2 \restr{\pp{}{\varphi^j}}{p} \varphi^i = 0 \implies \lambda_1 = 0
+        \]
+        and the same works for $\lambda_2$, or the case with multiple elements from the basis.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    The coefficients of decomposition of $v \in T_pM$ under chart $(U, \varphi)$, $\xi^i := v(\varphi^i)$, is the \textbf{principal part} of $v$ w.r.t. $\varphi$.
+\end{definition}
+
+\begin{corollary}
+    The change of principal parts $(\xi^i), (\eta^i)$, specified w.r.t. charts $(U, \varphi), (V, \psi)$, is given by
+    \[
+        \eta^i = \sum_{j = 1}^{n} \restr{\pp{\psi^j}{\varphi^i}}{p} \xi^j
+    \]
+\end{corollary}
+
+\begin{proof}
+    This is given directly by applying the chain rule. For $v \in T_pM$, express in two ways:
+    \[
+        v = \sum_{i = 1}^{n} \xi^i \restr{\pp{}{\varphi^i}}{p} = \sum_{i = 1}^{n} \xi^i \sum_{j = 1}^{n} \restr{\pp{\psi^i}{\varphi^j}}{p} \restr{\pp{}{\psi^i}}{p}
+    \]
+    while on the other hand
+    \[
+        v = \sum_{j = 1}^{n} \eta^j \restr{\pp{}{\psi^j}}{p}
+    \]
+    Since $\left\{ \restr{\pp{}{\varphi^1}}{p}, \dots, \restr{\pp{}{\varphi^1}}{n} \right\}$ gives a basis of $T_pM$, all the coefficients must be equal, which yields the transformation.
+\end{proof}
+
+\begin{definition}[Tangent Bundle]
+    Let $M$ be an $n$-manifold. Then the \textbf{tangent bundle} is the disjoint union of all tangent spaces, namely
+    \[
+        TM := \coprod_{p \in M} T_p M := \{(p, v) \mid p \in M, v \in T_p M\}
+    \]
+    The map $\pi: TM \to M, (p, v) \mapsto p$ is the \textbf{(base) projection}.
+\end{definition}
+
+\begin{proposition}
+    $TM$ has a well-defined induced topology which makes it a manifold; and for a smooth atlas $\mathcal{A}$, this induces a smooth atlas
+    \[
+        \mathcal{A}^{TM} := \left\{ \left( \coprod_{p \in U} T_pM, \d \varphi \right) \mid (U, \varphi) \in \mathcal{A} \right\}
+    \]
+    where
+    \[
+        \d \varphi : \coprod_{p \in M} T_p M \to \varphi(U) \times \R^n \subseteq \R^{2n}, \qquad (p, v) \mapsto (\varphi(p), v_{\varphi}) 
+    \]
+    with $v_{\varphi}$ is the physical tangent vector defined under chart $(U, \varphi)$.
+\end{proposition}
+
+\begin{proof}
+    First check that the induced topology gives a manifold. The natural choice for the induced definition on open sets is by $\d\varphi$. Define $\Omega \in TM$ to be open if and only if for all $(U, \varphi)$ compatible with the smooth atlas $\mathcal{A}$, $\d\varphi(\Omega \cap \coprod_{p \in U} T_pM) \subseteq \R^{2n}$ is open in $\R^{2n}$. By Corollary \ref{cor: R^n countable basis}, this gives the Hausdorff property, and the fact that it has a countable basis.
+
+    Further verify that the induced transition between charts is smooth in $TM$. For $(U, \varphi), (V, \psi)$ two charts compatible with $\mathcal{A}$, the induced transition on the tangent bundle
+    \[
+        \d\psi \circ \d \varphi^{-1} := (\psi \circ \varphi^{-1}, D(\psi \circ \varphi^{-1}))
+    \]
+    $(U, \varphi)$ and $(V, \psi)$ being compatible gives that $\psi \circ \varphi^{-1}$ is smooth; and this gives that the differential of them $D(\psi \circ \varphi^{-1})$ is smooth.
+\end{proof}
+
+\begin{definition}[Differential]
+    For a smooth map $F: M \to N$, it naturally induces a differential map between the corresponding tangent bundles $\d F : TM \to TN$. The instantiation at $p \in M$ is given by $\d_p F: T_pM \to T_{F(p)}N$, defined as follows:
+    \begin{itemize}
+        \item For $\partial \in T_p M$ an algebraic tangent vector, for all $f \in T_{F(p)} N \subseteq C^{\infty}(N)$, the differential is defined as 
+        \[
+            \d_p F (\partial) (f) := \partial(f \circ F)
+        \]
+        \item For $v \in T_p M \subseteq \R^n$ a physical tangent vector, for $(U, \varphi)$ a chart supporting $p$, and $(V, \psi)$ a chart supporting $F(p)$, the differential is defined as
+        \[
+            (\d_p F(v))_{\varphi, \psi} := \restr{D(\psi \circ F \circ \varphi^{-1})}{\varphi(p)} v_{\varphi}
+        \]
+        where the domain is restricted to the intersection of all valid domains for each map in the composition.
+        \item For $[\gamma] \in T_p M$ a geometric tangent vector, with $\gamma : \R \supseteq I \to M$, the differential is defined as
+        \[
+            \d_p F([\gamma]) = [F \circ \gamma]
+        \]
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    The differential, defined as above under the context of physical and geometric tangent vectors, is well-defined.
+\end{proposition}
+
+\begin{proof}
+    Check the well-definedness of physical and geometric tangent vectors respectively:
+    \begin{itemize}
+        \item \emph{Physical tangent vector.} Since $F$ is smooth, and the charts are smooth in them self, $\psi \circ F \circ \varphi^{-1}$ is smooth. The transition function it therefore also smooth, and is compatible with the definition.
+        \item \emph{Geometric tangent vector.} Let $[\gamma_1] = [\gamma_2]$. For $(U, \varphi)$ a chart s.t. $p \in U$, and $(V, \psi)$ a chart s.t. $F(p) \in V$, apply the chain rule:
+        \begin{align*}
+            (\psi \circ F \circ \gamma_1)'(0)
+            & = (\psi \circ F \circ \varphi^{-1} \circ \varphi \circ \gamma_1)'(0) \\
+            & = (\psi \circ F \circ \varphi^{-1})'(\varphi \circ \gamma_1(0)) \cdot (\varphi \circ \gamma_1)'(0) \\
+            & = (\psi \circ F \circ \varphi^{-1})'(\varphi(p)) \cdot (\varphi \circ \gamma_1)'(0) \\
+            & = (\psi \circ F \circ \varphi^{-1})'(\varphi \circ \gamma_2(0)) \cdot (\varphi \circ \gamma_2)'(0) \\
+            & = (\psi \circ F \circ \gamma_2)'(0)
+        \end{align*}
+        which implies that the family of curves thus determined is independent of the choice of the representative. 
+    \end{itemize}
+\end{proof}
+
+\begin{remark}
+    In particular, choose $F = \Id_M$ gives $\d F = \Id_{TM}$, by the composition rule specified above. Notice that in the case for physical tangent vectors, it is valid to choose $\varphi = \psi$ as we are in the same space.
+\end{remark}
+
+\begin{remark}
+    For $G: M \to N$, $F : N \to P$ smooth maps between manifolds, $\d (F \circ G) = \d F \circ \d G$. As three definitions are equivalent, it suffices to check for one of them. This is straightforward for the geometric definition, as
+    \[
+        \d_p (F \circ G)([\gamma]) = [G \circ F \circ \gamma] = [G \circ (F \circ \gamma)] - \d_{G(p)}(F) \circ \d_pG([\gamma])
+    \] 
+\end{remark}
 
 \end{document}
