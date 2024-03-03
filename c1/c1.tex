@@ -83,7 +83,7 @@ First setup some lemmas for further use in the proof:
 
     Consider the approximation of $f$ near $x_0 = 0$: let $g(x) = f(x) - x$. Since $g(0) = 0$ and both $f$ and $\Id$ are continuous, there exists $r$ s.t. $\closure{B_r(x)} \subseteq \Omega$, and $\norm{\restr{Dg}{x}} \leq \frac{1}{2}$ for all $x \in \Omega$. This implies that $g$ is a contraction in $\closure{B_r(0)}$, as
     \[
-        g(x) - g(0) = \int_{0}^{x} \restr{Dg}{t} \dt = \int_{0}^{1} \restr{Dg}{xt} x \dt = x\cdot \int_{0}^{1} \restr{Dg}{xt} \dt \implies 
+        g(x) - g(0) = \int_{0}^{x} \restr{Dg}{t} \d t = \int_{0}^{1} \restr{Dg}{xt} x \d t = x\cdot \int_{0}^{1} \restr{Dg}{xt} \d t \implies 
         \norm{g(x)} \leq \sup_{t \in [0, 1]} \norm{\restr{Dg}{xt}} \cdot \norm{x} = \frac{1}{2} \norm{x}
     \]
     This implies that $f$ maps surjectively onto $\closure{B_{r/2}(0)}$: consider $h := y + g(x)$, which is a map from $\closure{B_r(0)}$ to itself. $h$ is also a contraction as

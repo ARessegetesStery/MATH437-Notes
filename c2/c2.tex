@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{../refalg}
+
+\begin{document}
+\Makepagesectionhead{MATH 437}{Connection and Curvature}{ARessegetes Stery}
+
+\tableofcontents
+\newpage
+
+\section{Objects on Vector Fields}
+
+\begin{definition}[Vector Field]
+    A \textbf{(smooth) vector field} on a smooth manifold $M$ with the projection from the tangent bundle $\pi: TM \to M$ is a smooth map $X: TM \to M$ s.t. $\pi \circ X = \Id_M$. The set of all vector fields on $M$ is denoted as $\Gamma(M, TM)$, $\X(M)$, or simply $\Gamma(TM)$.
+\end{definition}
+
+For general vector bundles, the vector fields are also referred to as the sections of the base, which is tangent bundle here.
+
+\begin{example}\label{ex: tangent bundle is trivial}
+    Recall that the elements in the tangent space are formalized as derivations, i.e. $\smooth(M) \to \R$, for some smooth $n$-manifold $M$. Naturally one has a basis for the vector field $\left\{ \restr{{\ppd{\varphi^1}}}{p}, \dots, \restr{{\ppd{\varphi^n}}}{p} \right\}$. Then for $x \in \R^n$ we have the following identification given by diffeomorphisms:
+    \[
+        \left( \d\varphi \circ \ppd{\varphi^i} \circ \varphi^{-1} \right)(x)
+        = \d\varphi\left( \varphi^{-1}(x), \restr{\ppd{\varphi^i}}{\varphi^{-1}(x)} \right)
+        = \left(x, \d\varphi\left( \restr{\ppd{\varphi^i}}{\varphi^{-1}(x)} \right) \right)
+    \]
+    Recall further that $\d\varphi$ is the differential (pushforward) for $\varphi: M \to \R^n$; and naturally one have the diffeomorphism between $T_x\R^n \simeq \R^n$ given by the differentiation functions from $\R^n$ to itself. Notice that we have
+    \[
+        \ppd{\varphi^i}(x^i \circ \varphi) := \pp{(x^i \circ \varphi \circ \varphi^{-1})}{x^i} = \pp{x^1}{x^1} = 1
+    \]
+    i.e. we have the identification between the basis vector $\ppd{\varphi^i}$ and the basis vector in $\R^n$ $e_i$, we have 
+    \[
+        \left( \d\varphi \circ \ppd{\varphi^i} \circ \varphi^{-1} \right)(x) = (x, \restr{e_i}{x}) \simeq (p, \restr{e_i}{x})
+    \]
+    with the last isomorphism given by the fact that the chart is a diffeomorphism. This implies that the tangent bundle over $U$ is \emph{trivial}, i.e. $\restr{TM}{U} = TU \simeq \varphi(U) \times \R^n \simeq U \times \R^n$. 
+\end{example}
+
+An importance observation is that smooth functions on $M$ can be differentiated along vector fields, which in turn gives another function (in $\smooth(M)$). This very much resembles the concept of directional derivative, but is extended to the whole manifold (i.e. globally), where the ``direction'' is specified by the vector field.
+
+The natural construction results from the fact that elements in the vector field are functions by themselves; and the function that is differentiated specifies where and how the evaluation is done. The formalization is as below:
+
+\begin{definition}[Differentiation Along Vector Field]
+    Given a smooth manifold $M$, the \textbf{differentiation along a vector field} on $M$ is a function:
+    \[
+        \d: C^{\infty}(M) \times \X(M) \to C^{\infty}(M), \qquad (f, X) \mapsto X(f) =: df(X)
+    \]
+    where, adopting the notation similar to tangent spaces, define
+    \[
+        X(f): \smooth(M) \to \R, \qquad p \mapsto X_p(f) := X(p)(f) \in \R
+    \]
+\end{definition}
+
+\begin{remark}
+    Since $X(p)$ is in the tangent space, by the definition of \emph{algebraic tangent vectors}, it should satisfy the Leibniz rule. This directly gives the fact that differentiation along a vector field is indeed a differentiation (i.e. satisfying Leibniz rule).
+\end{remark}
+
+\begin{remark}
+    $\X(M)$ gives a $\smooth(M)$-module structure. The natural definition of scalar multiplication is given by
+    \[
+        (f \cdot X)(g) = f \cdot (X(g)), \qquad (f \cdot X)(g)(p) = f(p) \cdot X_p(g)
+    \]
+    for $f, g \in \smooth(M)$, $p \in M$.
+\end{remark}
+
+The following result gives a generalization of the discussion in Example \ref{ex: tangent bundle is trivial} on the coordinate expression of a vector field:
+
+\begin{proposition}\label{prop: coordinate representation of vector field}
+    Given $M$ a smooth manifold, and $(U, \varphi)$ a smooth chart of $M$. Then we have
+    \[
+        \restr{X}{U} = \sum_{i = 1}^{n} (X_{\varphi}^i \circ \varphi) \ppd{\varphi^i}
+    \] 
+    In particular, $\left(\restr{\ppd{\varphi^i}}{(-)}\right)$ gives a basis of $\X(U)$. 
+\end{proposition}
+
+\begin{proof}
+    Recall in Example \ref{ex: tangent bundle is trivial} for a vector field $X$ we have the transformation from the tangent space into $\R^n$ given by $\d\varphi \circ X \circ \varphi^{-1}$, which for $\pi: U \times \R^n \to U$ being the projection gives the following commutative diagram:
+
+    \begin{minipage}{\linewidth}
+        \centering
+        \begin{tikzcd}
+            U \subset M \arrow[rr, "X"] \arrow[dd, "\varphi"] & & \restr{TM}{{U}} \arrow[dd, "\d\varphi"] \\
+            & & \\
+            V \subset \R^n \arrow[rr, <-, "\pi"] & & V \times \R^n
+        \end{tikzcd}
+    \end{minipage}
+
+    where $\d\varphi$ is the pushforward of the chart. The diagram commutes by the requirement that all maps are diffeomorphisms, which forces the projection from the trivialization of the tangent bundle should be the base space.
+    
+    Then $\pi^{-1} = \d\varphi \circ X \circ \varphi^{-1}$ gives a coordinate system of the tangent space. Define $X_{\varphi}: V \to \R^n$ to be the corresponding lift in $\R^n$, i.e. $X_{\varphi}(x) = \pi_r^{-1}(x) \simeq \pi^{-1}(x)$ for $\pi_r^{-1}$ being the restriction of $\pi^{-1}$ to the second field ($\R^n$). 
+
+    By the result in Example \ref{ex: tangent bundle is trivial} we have the identification between $\restr{\ppd{\varphi^i}}{p}$ and $e_i$ for $(e_i)$ being the standard basis in $\R^n$. This enables a ``transformation'' from a basis in $\R^n$ and a basis in the tangent space, which by the diagram above is given by
+    \[
+        \restr{X}{U} = \sum_{i = 1}^{n} (X_{\varphi}^i \circ \varphi) \ppd{\varphi^i}
+    \]
+    which implies that $\left(\restr{\ppd{\varphi^i}}{(-)}\right)$ gives a basis in $\X(U)$. Notice that this is not elements in $TM$ (e.g. $\restr{\ppd{\varphi^i}}{p}$), although elements in the image take such forms. 
+\end{proof}
+
+\begin{definition}[Moving Frame]
+    Bases of vector fields, or more generally, sections, are also referred to as \textbf{moving frame}s. Formally, under the context of vector fields, a \textbf{moving frame} of $TM$ on $U \subset M$ is an $n$-tuple $(E_1, \dots, E_n)$ where $E_i \in \X(U)$; and for all $p \in U$, $(E_i(p))$ gives a basis of $T_p M$. 
+\end{definition}
+
+\begin{remark}
+    The coordinates of the vector field $X$ can be explicitly calculated as follows: consider the smooth functions $\varphi^i$ which is the $i$-th coordinate of the chart $\varphi$. Then by Proposition \ref{prop: coordinate representation of vector field}, we have
+    \[
+        \restr{X}{U}(\varphi^i) 
+        = \sum_{j = 1}^{n} (X_{\varphi}^j \circ \varphi) \ppd{\varphi^j}
+        = X_{\varphi}^i \circ \varphi
+    \]
+    which implies that the coefficients are given by 
+    \[
+        X_{\varphi^i} = (\restr{X}{U}(\varphi^i)) \circ \varphi^{-1}
+    \]
+\end{remark}
+
+We now introduce the definition of Lie Algebra, which is characteristic for many properties in vector fields, or in general, sections:
+
+\begin{definition}[Lie Bracket, Lie Algebra]
+    Let $\mathbb{K}$ be a field, and $V$ a vector space over $\mathbb{K}$. A \textbf{Lie Bracket} is a bilinear map over $\mathbb{K}$ $[\cdot, \cdot]: V \times V \to V$ satisfying:
+    \begin{itemize}
+        \item \emph{Antisymmetry.} For all $u, v \in V$, $[u, v] = -[v, u]$.
+        \item \emph{Jacobi Identity.} For all $u, v, w \in V$, 
+        \[
+            [u, [v, w]] + [v, [w, u]] [w, [u, v]] = 0
+        \]
+    \end{itemize} 
+    The pair $(V, [\cdot, \cdot])$ is a \textbf{Lie Algebra}.
+\end{definition}
+
+An important example of Lie Algebra is the commutator of two vector fields:
+
+\begin{proposition}
+    Let $M$ be a smooth manifold. Then $(\X(M), [\cdot, \cdot])$ gives a Lie algebra structure over $\R$ when taking $[X, Y] = XY - YX$.
+\end{proposition}
+
+\begin{proof}
+    Consider the $R$-vector space structure of vector fields, with the scalar multiplication defined as $[cX, Y](-) = c\cdot [X, Y](-)$. Check:
+    \begin{itemize}
+        \item \emph{Antisymmetry.}
+        \item \emph{Jacobi Identity.}
+        \item \emph{$[\cdot, \cdot]$ gives a vector field.}
+    \end{itemize}
+\end{proof}
+
+\end{document}
